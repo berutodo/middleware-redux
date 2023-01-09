@@ -14,16 +14,19 @@ const response = await fetch(
 );
 const { token } = await response.json();
 
+export const startFetch = () => ({ type: FETCH_STARTED })
+
+const middleware = Redux.applyMiddleware(tokenFetcher)
 
 const reducer = immer.produce((state, action) => {
     switch (action.type) {
-        case INCREMENTAR_TEMPO:
-            state.diasRestantes + 1;
+        case FETCH_STARTED:
+            return state;
             break;
-        case REDUZIR_TEMPO:
+        case FETCH_SUCCESS:
             state.diasRestantes - 1;
             break;
-        case MODIFICAR_EMAIL:
+        case FETCH_ERROR:
             state.email = action.payload
     }
 }, initialState);

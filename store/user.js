@@ -10,17 +10,27 @@ const response = await fetch('https://dogsapi.origamid.dev/json/api/user', {
 });
 const data = await response.json();
 
+const initialState = {
+    loading: false,
+    data: null,
+    error: null
+}
+
 const reducer = immer.produce((state, action) => {
     switch (action.type) {
-        case INCREMENTAR_TEMPO:
-            state.diasRestantes + 1;
+        case FETCH_STARTED:
+            return { loading: true }
             break;
-        case REDUZIR_TEMPO:
-            state.diasRestantes - 1;
+        case FETCH_SUCCESS:
+            return { loading: false, data: action.payload }
             break;
-        case MODIFICAR_EMAIL:
-            state.email = action.payload
+        case FETCH_ERROR:
+            return { loading: false, data: null, error: action.payload }
     }
 }, initialState);
+
+async function fetchUrl(dispatch, url) {}
+
+fetchUrl(store.dispatch, 'https://dogsapi.origamid.dev/json/api/user')
 
 export default reducer;

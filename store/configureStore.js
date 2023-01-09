@@ -1,7 +1,9 @@
-import token from './token';
-import user from './user';
+import incrementar from './incrementar'
+import logger from './middleware/logger'
+const { applyMiddleware, compose } = Redux;
+const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : (null || compose);
+const enhancer = Redux.composeEnhancers(applyMiddleware(logger))
+const reducer = Redux.combineReducers({ incrementar })
 
-const reducer = Redux.combineReducers({ token, user })
-
-const store = Redux.createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+const store = Redux.createStore(reducer, enhancer)
 export default store;
